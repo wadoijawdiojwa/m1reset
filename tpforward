@@ -1,0 +1,23 @@
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+local function teleportForward()
+    if character and humanoidRootPart then
+        -- Get the forward direction
+        local forwardVector = humanoidRootPart.CFrame.LookVector
+        -- Calculate the new position
+        local newPosition = humanoidRootPart.Position + (forwardVector * 45)
+        -- Teleport the player
+        humanoidRootPart.CFrame = CFrame.new(newPosition, newPosition + humanoidRootPart.CFrame.LookVector)
+    end
+end
+
+-- Bind to the "R" key press
+local userInputService = game:GetService("UserInputService")
+
+userInputService.InputBegan:Connect(function(input, gameProcessed)
+    if not gameProcessed and input.KeyCode == Enum.KeyCode.R then
+        teleportForward()
+    end
+end)
