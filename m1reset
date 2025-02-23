@@ -1,0 +1,38 @@
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local player = Players.LocalPlayer
+
+-- Function to teleport the player forward
+local function teleportForward()
+    local character = player.Character
+    if character and character:FindFirstChild("HumanoidRootPart") then
+        local humanoidRootPart = character.HumanoidRootPart
+        local forwardVector = humanoidRootPart.CFrame.LookVector
+        local newPosition = humanoidRootPart.Position + (forwardVector * 35)
+        
+        humanoidRootPart.CFrame = CFrame.new(newPosition, newPosition + forwardVector)
+    end
+end
+
+-- Function to teleport the player backward
+local function teleportBack()
+    local character = player.Character
+    if character and character:FindFirstChild("HumanoidRootPart") then
+        local humanoidRootPart = character.HumanoidRootPart
+        local backwardVector = humanoidRootPart.CFrame.LookVector * -30
+        local newPosition = humanoidRootPart.Position + backwardVector
+
+        humanoidRootPart.CFrame = CFrame.new(newPosition, newPosition + humanoidRootPart.CFrame.LookVector)
+    end
+end
+
+-- Key press event listener
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if not gameProcessed then
+        if input.KeyCode == Enum.KeyCode.R then
+            teleportForward()
+        elseif input.KeyCode == Enum.KeyCode.T then
+            teleportBack()
+        end
+    end
+end)
